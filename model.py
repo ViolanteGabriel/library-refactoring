@@ -5,14 +5,45 @@ class Price:
     def get_frequent_renter_points(self, days_rented: int) -> int:
         pass
 
+# Done
 class RegulaPrice(Price):
-    pass
+    def get_charge(self, days_rented: int) -> float:
+        amount = 2
+        if days_rented > 2:
+            amount += (days_rented - 2) * 1.5
+        return amount
+        
+    def get_frequent_renter_points(self, points: int, days_rented: int) -> int:
+        points += 1
+        return points
 
+# Done 
 class NewReleasePrice(Price):
-    pass
+    
+    def get_charge(self, days_rented: int) -> float:
+        return days_rented * 3
+    
+    def get_frequent_renter_points(self, points: int, days_rented: int) -> int:
+        points += 1
+        if days_rented > 1:
+            points += 1
+        return points
 
+# Done
 class ChildrenPrice(Price):
-    pass
+    def get_charge(self, days_rented: int) -> float:
+        amount = 1.5
+        if days_rented > 3:
+            amount += (days_rented - 3) * 1.5
+        return amount
+
+    def get_frequent_renter_points(self, points: int, days_rented: int) -> int:
+        points += 1
+        return points
+
+    
+
+
 
 class Book:
 
@@ -34,8 +65,9 @@ class Book:
     def get_charge(self, days_rented: int):
         return self.price.get_charge(days_rented)
 
-    def get_frequent_renter_points(self, days_rented: int):
-        return self.price.get_frequent_renter_points(days_rented)
+    def get_frequent_renter_points(self, points: int, days_rented: int):
+        return self.price.get_frequent_renter_points(points, days_rented)
+
 
 class Rental:
     def __init__(self, book: Book, days_rented: int):
@@ -44,20 +76,6 @@ class Rental:
 
     def get_charge(self) -> float:
         return self.book.get_charge(self.days_rented)
-
-    def get_charge(self) -> float:
-        amount = 0
-        if self.book.price_code == Book.REGULAR:
-            amount += 2
-            if self.days_rented > 2:
-                amount += (self.days_rented - 2) * 1.5
-        elif self.book.price_code == Book.NEW_RELEASE:
-            amount += self.days_rented * 3
-        elif self.book.price_code == Book.CHILDREN:
-            amount += 1.5
-            if self.days_rented > 3:
-                amount += (self.days_rented - 3) * 1.5
-        return amount
 
     def get_frequent_renter_points(self, points):
         return self.book.get_frequent_renter_points(points, self.days_rented)
@@ -93,3 +111,7 @@ class Client:
         result += f"Total: {total_amount}\n"
         result += f"Points: {frequent_renter_points}"
         return result
+
+
+# No AI was used in this task
+# Done by Gabriel Violante
